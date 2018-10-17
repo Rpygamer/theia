@@ -88,7 +88,27 @@ export class OutputWidget extends ReactWidget {
     }
 
     protected render(): React.ReactNode {
-        return <React.Fragment>{this.renderChannelSelector()}{this.renderChannelContents()}</React.Fragment>;
+        return <React.Fragment>
+            <div id='outputOverlay'>
+                {this.renderChannelSelector()}
+                {this.renderClearButton()}
+            </div>
+            {this.renderChannelContents()}
+        </React.Fragment>;
+    }
+
+    private readonly OUTPUT_CLEAR_BUTTON_ID = 'outputClear';
+
+    protected renderClearButton(): React.ReactNode {
+        return <span title='Clear'
+            className={this.selectedChannel ? 'enabled' : ''}
+            id={this.OUTPUT_CLEAR_BUTTON_ID} onClick={() => this.clear()} />;
+    }
+
+    private clear() {
+        if (this.selectedChannel) {
+            this.selectedChannel.clear();
+        }
     }
 
     private readonly OUTPUT_CONTENTS_ID = 'outputContents';
